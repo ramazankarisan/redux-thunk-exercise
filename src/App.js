@@ -7,21 +7,22 @@ import "./App.css"
 export default function App() {
   const dispatch = useDispatch();
   const countries = useSelector(state => state.countries);
+  const { isLoading } = useSelector(state => state)
 
   useEffect(() => {
     dispatch(getCountries())
-    // getCountries()
+
   }, []);
-  console.log(countries);
+
 
 
 
 
   return (
     <div className="App">
-      <h1>React Dersleri</h1>
-      <h2>React Router</h2>
-      {countries.map(country => {
+      <h1>React Redux-Thunk Exercise</h1>
+
+      {isLoading ? <p>Loading...</p> : countries.map(country => {
         return (
           <div key={country.name} >
             <h3>Name: {country.name}</h3>
