@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from "react";
-import "./styles.css";
-import axios from "axios";
+import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { getCountries } from "./actions";
+import { useDispatch } from "react-redux";
+import "./App.css"
 
 export default function App() {
-  const [countries, setCountries] = useState([]);
+  const dispatch = useDispatch();
+  const countries = useSelector(state => state.countries);
 
   useEffect(() => {
-    axios
-      .get("https://restcountries.eu/rest/v2/all")
-      .then(response => setCountries(response.data))
-      .catch(error => console.log({ error }));
+    dispatch(getCountries())
+    // getCountries()
   }, []);
+  console.log(countries);
+
+
+
 
   return (
     <div className="App">
@@ -18,12 +23,12 @@ export default function App() {
       <h2>React Router</h2>
       {countries.map(country => {
         return (
-          <div key={country.name}>
-            <h3>{country.name}</h3>
-            <h4>{country.capital}</h4>
+          <div key={country.name} >
+            <h3>Name: {country.name}</h3>
+            <h4>Capital: {country.capital}</h4>
             <p>
               <img
-                src={country.flag}
+                src={country.flag || country.flags.png || country.flags.svg}
                 alt={country.name}
                 style={{ width: "100px" }}
               />
